@@ -6,17 +6,18 @@ from api.v1.views import app_views
 from models import storage
 from os import getenv
 from flask_cors import CORS
-
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(app_views)
 # Configure the SQLAlchemy database URI
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://lynks_eng:lynks_eng_pwd@localhost/lynks_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://lynks_eng:lynks_eng_pwd@localhost/lynks_db'
 
 # Initialize SQLAlchemy
-#db = SQLAlchemy(app)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 @app.teardown_appcontext
 def teardown_db(obj):
